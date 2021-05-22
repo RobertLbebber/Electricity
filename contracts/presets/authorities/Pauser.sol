@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
-pragma solidity 0.7.5;
+pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/utils/Pausable.sol";
+import "../../interfaces/IPauser.sol";
 
 abstract contract PauserAuthority is AccessControl, Pausable {
     bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");

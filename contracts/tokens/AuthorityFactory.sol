@@ -52,7 +52,7 @@ contract AuthorityFactory is Context, ERC165, IERC721, IERC721Metadata {
      * @dev See {IERC721-balanceOf}.
      */
     function balanceOf(address owner) public view virtual override returns (uint256) {
-        require(owner != address(0), "ERC721: balance query for the zero address");
+        require(owner != address(0), "AuthorityFactory: balance query for the zero address");
         return _balances[owner];
     }
 
@@ -61,7 +61,7 @@ contract AuthorityFactory is Context, ERC165, IERC721, IERC721Metadata {
      */
     function ownerOf(uint256 tokenId) public view virtual override returns (address) {
         address owner = _owners[tokenId];
-        require(owner != address(0), "ERC721: owner query for nonexistent token");
+        require(owner != address(0), "AuthorityFactory: owner query for nonexistent token");
         return owner;
     }
 
@@ -83,7 +83,7 @@ contract AuthorityFactory is Context, ERC165, IERC721, IERC721Metadata {
      * @dev See {IERC721Metadata-tokenURI}.
      */
     function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
-        require(_exists(tokenId), "ERC721Metadata: URI query for nonexistent token");
+        require(_exists(tokenId), "AuthorityFactoryMetadata: URI query for nonexistent token");
 
         string memory baseURI = _baseURI();
         return bytes(baseURI).length > 0
@@ -104,11 +104,11 @@ contract AuthorityFactory is Context, ERC165, IERC721, IERC721Metadata {
      * @dev See {IERC721-approve}.
      */
     function approve(address to, uint256 tokenId) public virtual override {
-        address owner = ERC721.ownerOf(tokenId);
-        require(to != owner, "ERC721: approval to current owner");
+        address owner = AuthorityFactory.ownerOf(tokenId);
+        require(to != owner, "AuthorityFactory: approval to current owner");
 
         require(_msgSender() == owner || isApprovedForAll(owner, _msgSender()),
-            "ERC721: approve caller is not owner nor approved for all"
+            "AuthorityFactory: approve caller is not owner nor approved for all"
         );
 
         _approve(to, tokenId);
@@ -118,7 +118,7 @@ contract AuthorityFactory is Context, ERC165, IERC721, IERC721Metadata {
      * @dev See {IERC721-getApproved}.
      */
     function getApproved(uint256 tokenId) public view virtual override returns (address) {
-        require(_exists(tokenId), "ERC721: approved query for nonexistent token");
+        require(_exists(tokenId), "AuthorityFactory: approved query for nonexistent token");
 
         return _tokenApprovals[tokenId];
     }
@@ -127,7 +127,7 @@ contract AuthorityFactory is Context, ERC165, IERC721, IERC721Metadata {
      * @dev See {IERC721-setApprovalForAll}.
      */
     function setApprovalForAll(address operator, bool approved) public virtual override {
-        require(operator != _msgSender(), "ERC721: approve to caller");
+        require(operator != _msgSender(), "AuthorityFactory: approve to caller");
 
         _operatorApprovals[_msgSender()][operator] = approved;
         emit ApprovalForAll(_msgSender(), operator, approved);
@@ -145,7 +145,7 @@ contract AuthorityFactory is Context, ERC165, IERC721, IERC721Metadata {
      */
     function transferFrom(address from, address to, uint256 tokenId) public virtual override {
         //solhint-disable-next-line max-line-length
-        require(_isApprovedOrOwner(_msgSender(), tokenId), "ERC721: transfer caller is not owner nor approved");
+        require(_isApprovedOrOwner(_msgSender(), tokenId), "AuthorityFactory: transfer caller is not owner nor approved");
 
         _transfer(from, to, tokenId);
     }
@@ -161,7 +161,7 @@ contract AuthorityFactory is Context, ERC165, IERC721, IERC721Metadata {
      * @dev See {IERC721-safeTransferFrom}.
      */
     function safeTransferFrom(address from, address to, uint256 tokenId, bytes memory _data) public virtual override {
-        require(_isApprovedOrOwner(_msgSender(), tokenId), "ERC721: transfer caller is not owner nor approved");
+        require(_isApprovedOrOwner(_msgSender(), tokenId), "AuthorityFactory: transfer caller is not owner nor approved");
         _safeTransfer(from, to, tokenId, _data);
     }
 
@@ -185,7 +185,7 @@ contract AuthorityFactory is Context, ERC165, IERC721, IERC721Metadata {
      */
     function _safeTransfer(address from, address to, uint256 tokenId, bytes memory _data) internal virtual {
         _transfer(from, to, tokenId);
-        require(_checkOnERC721Received(from, to, tokenId, _data), "ERC721: transfer to non ERC721Receiver implementer");
+        require(_checkOnERC721Received(from, to, tokenId, _data), "AuthorityFactory: transfer to non ERC721Receiver implementer");
     }
 
     /**
@@ -208,8 +208,8 @@ contract AuthorityFactory is Context, ERC165, IERC721, IERC721Metadata {
      * - `tokenId` must exist.
      */
     function _isApprovedOrOwner(address spender, uint256 tokenId) internal view virtual returns (bool) {
-        require(_exists(tokenId), "ERC721: operator query for nonexistent token");
-        address owner = ERC721.ownerOf(tokenId);
+        require(_exists(tokenId), "AuthorityFactory: operator query for nonexistent token");
+        address owner = AuthorityFactory.ownerOf(tokenId);
         return (spender == owner || getApproved(tokenId) == spender || isApprovedForAll(owner, spender));
     }
 
@@ -233,7 +233,7 @@ contract AuthorityFactory is Context, ERC165, IERC721, IERC721Metadata {
      */
     function _safeMint(address to, uint256 tokenId, bytes memory _data) internal virtual {
         _mint(to, tokenId);
-        require(_checkOnERC721Received(address(0), to, tokenId, _data), "ERC721: transfer to non ERC721Receiver implementer");
+        require(_checkOnERC721Received(address(0), to, tokenId, _data), "AuthorityFactory: transfer to non ERC721Receiver implementer");
     }
 
     /**
@@ -249,8 +249,8 @@ contract AuthorityFactory is Context, ERC165, IERC721, IERC721Metadata {
      * Emits a {Transfer} event.
      */
     function _mint(address to, uint256 tokenId) internal virtual {
-        require(to != address(0), "ERC721: mint to the zero address");
-        require(!_exists(tokenId), "ERC721: token already minted");
+        require(to != address(0), "AuthorityFactory: mint to the zero address");
+        require(!_exists(tokenId), "AuthorityFactory: token already minted");
 
         _beforeTokenTransfer(address(0), to, tokenId);
 
@@ -271,7 +271,7 @@ contract AuthorityFactory is Context, ERC165, IERC721, IERC721Metadata {
      * Emits a {Transfer} event.
      */
     function _burn(uint256 tokenId) internal virtual {
-        address owner = ERC721.ownerOf(tokenId);
+        address owner = AuthorityFactory.ownerOf(tokenId);
 
         _beforeTokenTransfer(owner, address(0), tokenId);
 
@@ -296,8 +296,8 @@ contract AuthorityFactory is Context, ERC165, IERC721, IERC721Metadata {
      * Emits a {Transfer} event.
      */
     function _transfer(address from, address to, uint256 tokenId) internal virtual {
-        require(ERC721.ownerOf(tokenId) == from, "ERC721: transfer of token that is not own");
-        require(to != address(0), "ERC721: transfer to the zero address");
+        require(AuthorityFactory.ownerOf(tokenId) == from, "AuthorityFactory: transfer of token that is not own");
+        require(to != address(0), "AuthorityFactory: transfer to the zero address");
 
         _beforeTokenTransfer(from, to, tokenId);
 
@@ -318,7 +318,7 @@ contract AuthorityFactory is Context, ERC165, IERC721, IERC721Metadata {
      */
     function _approve(address to, uint256 tokenId) internal virtual {
         _tokenApprovals[tokenId] = to;
-        emit Approval(ERC721.ownerOf(tokenId), to, tokenId);
+        emit Approval(AuthorityFactory.ownerOf(tokenId), to, tokenId);
     }
 
     /**
@@ -339,7 +339,7 @@ contract AuthorityFactory is Context, ERC165, IERC721, IERC721Metadata {
                 return retval == IERC721Receiver(to).onERC721Received.selector;
             } catch (bytes memory reason) {
                 if (reason.length == 0) {
-                    revert("ERC721: transfer to non ERC721Receiver implementer");
+                    revert("AuthorityFactory: transfer to non ERC721Receiver implementer");
                 } else {
                     // solhint-disable-next-line no-inline-assembly
                     assembly {

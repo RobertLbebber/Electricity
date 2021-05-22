@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 // Adopted from https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable/blob/v3.4.0/contracts/drafts/ERC20PermitUpgradeable.sol
 
-pragma solidity 0.7.5;
+pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts-upgradeable/proxy/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";

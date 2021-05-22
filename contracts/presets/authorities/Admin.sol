@@ -1,10 +1,19 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
-pragma solidity 0.7.5;
+pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/access/AccessControl.sol";
-import "@openzeppelin/contracts/utils/Pausable.sol";
-import "../interfaces/IAuthorities.sol";
+import "../../interfaces/IAdmin.sol";
+import "./CollectionSiteAdmin.sol";
+import "./CollectionSiteCreator.sol";
+import "./CollectionSiteDestroyer.sol";
+import "./CollectionSiteRevoker.sol";
+import "./Pauser.sol";
+import "./TokenBurner.sol";
+import "./TokenMinter.sol";
+import "./TokenOperator.sol";
+import "./TokenRevoker.sol";
+import "./TokenSender.sol";
 
 /**
  * @title Authorities
@@ -12,7 +21,7 @@ import "../interfaces/IAuthorities.sol";
  * @dev Bundles Access Control and Pausable contracts in one.
  *
  */
-abstract contract Authorities is IAuthorities, Pausable, AccessControl {
+abstract contract Admin is IAdmin, AccessControl {
 
     /**
     * @dev Modifier for checking whether the caller is an admin.
