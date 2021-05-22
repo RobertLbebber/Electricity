@@ -9,19 +9,19 @@ abstract contract TokenSenderAuthority is AccessControl {
     /**
      * @dev See {IAuthorities-isAdmin}.
      */
-    function isTokenSender(address _account) external override view returns (bool) {
+    function isTokenSender(address _account) external  view returns (bool) {
         return hasRole(TOKEN_SENDER_ROLE, _account);
     }
     /**
      * @dev See {IAuthorities-addAdmin}.
      */
-    function addTokenSender(address _account) external override {
+    function addTokenSender(address _account) external  {
         grantRole(TOKEN_SENDER_ROLE, _account);
     }
     /**
      * @dev See {IAuthorities-removeAdmin}.
      */
-    function removeTokenSender(address _account) external override {
+    function removeTokenSender(address _account) external  {
         revokeRole(TOKEN_SENDER_ROLE, _account);
     }
 }

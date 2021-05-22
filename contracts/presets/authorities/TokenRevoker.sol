@@ -9,19 +9,19 @@ abstract contract TokenRevokerAuthority is AccessControl {
     /**
      * @dev See {IAuthorities-isAdmin}.
      */
-    function isTokenRevoker(address _account) external override view returns (bool) {
+    function isTokenRevoker(address _account) external  view returns (bool) {
         return hasRole(TOKEN_REVOKER_ROLE, _account);
     }
     /**
      * @dev See {IAuthorities-addAdmin}.
      */
-    function addTokenRevoker(address _account) external override {
+    function addTokenRevoker(address _account) external  {
         grantRole(TOKEN_REVOKER_ROLE, _account);
     }
     /**
      * @dev See {IAuthorities-removeAdmin}.
      */
-    function removeTokenRevoker(address _account) external override {
+    function removeTokenRevoker(address _account) external  {
         revokeRole(TOKEN_REVOKER_ROLE, _account);
     }
 }

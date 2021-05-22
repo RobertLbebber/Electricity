@@ -9,19 +9,19 @@ abstract contract TokenOperatorAuthority is AccessControl {
     /**
      * @dev See {IAuthorities-isAdmin}.
      */
-    function isTokenOperator(address _account) external override view returns (bool) {
+    function isTokenOperator(address _account) external view returns (bool) {
         return hasRole(TOKEN_OPERATOR_ROLE, _account);
     }
     /**
      * @dev See {IAuthorities-addAdmin}.
      */
-    function addTokenOperator(address _account) external override {
+    function addTokenOperator(address _account) external {
         grantRole(TOKEN_OPERATOR_ROLE, _account);
     }
     /**
      * @dev See {IAuthorities-removeAdmin}.
      */
-    function removeTokenOperator(address _account) external override {
+    function removeTokenOperator(address _account) external {
         revokeRole(TOKEN_OPERATOR_ROLE, _account);
     }
 }

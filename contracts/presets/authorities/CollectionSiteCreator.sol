@@ -9,19 +9,19 @@ abstract contract CollectionSiteCreatorAuthority is AccessControl {
     /**
      * @dev See {IAuthorities-isAdmin}.
      */
-    function isCollectionSiteCreator(address _account) external override view returns (bool) {
+    function isCollectionSiteCreator(address _account) external  view returns (bool) {
         return hasRole(COLLECTION_SITE_CREATOR_ROLE, _account);
     }
     /**
      * @dev See {IAuthorities-addAdmin}.
      */
-    function addCollectionSiteCreator(address _account) external override {
+    function addCollectionSiteCreator(address _account) external  {
         grantRole(COLLECTION_SITE_CREATOR_ROLE, _account);
     }
     /**
      * @dev See {IAuthorities-removeAdmin}.
      */
-    function removeCollectionSiteCreator(address _account) external override {
+    function removeCollectionSiteCreator(address _account) external  {
         revokeRole(COLLECTION_SITE_CREATOR_ROLE, _account);
     }
 }

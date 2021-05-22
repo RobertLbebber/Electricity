@@ -9,19 +9,19 @@ abstract contract CollectionSiteRevokerAuthority is AccessControl {
     /**
      * @dev See {IAuthorities-isAdmin}.
      */
-    function isCollectionSiteRevoker(address _account) external override view returns (bool) {
+    function isCollectionSiteRevoker(address _account) external  view returns (bool) {
         return hasRole(COLLECTION_SITE_REVOKER_ROLE, _account);
     }
     /**
      * @dev See {IAuthorities-addAdmin}.
      */
-    function addCollectionSiteRevoker(address _account) external override {
+    function addCollectionSiteRevoker(address _account) external  {
         grantRole(COLLECTION_SITE_REVOKER_ROLE, _account);
     }
     /**
      * @dev See {IAuthorities-removeAdmin}.
      */
-    function removeCollectionSiteRevoker(address _account) external override {
+    function removeCollectionSiteRevoker(address _account) external  {
         revokeRole(COLLECTION_SITE_REVOKER_ROLE, _account);
     }
 }

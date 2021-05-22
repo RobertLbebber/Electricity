@@ -9,19 +9,19 @@ abstract contract CollectionSiteDestroyerAuthority is AccessControl {
     /**
      * @dev See {IAuthorities-isAdmin}.
      */
-    function isCollectionSiteDestroyer(address _account) external override view returns (bool) {
+    function isCollectionSiteDestroyer(address _account) external  view returns (bool) {
         return hasRole(COLLECTION_SITE_DESTROYER_ROLE, _account);
     }
     /**
      * @dev See {IAuthorities-addAdmin}.
      */
-    function addCollectionSiteDestroyer(address _account) external override {
+    function addCollectionSiteDestroyer(address _account) external  {
         grantRole(COLLECTION_SITE_DESTROYER_ROLE, _account);
     }
     /**
      * @dev See {IAuthorities-removeAdmin}.
      */
-    function removeCollectionSiteDestroyer(address _account) external override {
+    function removeCollectionSiteDestroyer(address _account) external  {
         revokeRole(COLLECTION_SITE_DESTROYER_ROLE, _account);
     }
 }
