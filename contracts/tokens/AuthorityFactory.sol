@@ -19,6 +19,7 @@ contract AuthorityFactory is ERC165, IERC721, Admin {
     string private _name;
 
     bool private _initialized;
+    Admin private admin;
 
     address private _cloudOwner;
 
@@ -40,13 +41,15 @@ contract AuthorityFactory is ERC165, IERC721, Admin {
     /**
      * @dev Initializes the contract by setting a `name` and a `symbol` to the token collection.
      */
-    constructor (address cloudOwner) Admin(_cloudOwner) {
+    constructor (address cloudOwner) Admin(cloudOwner) {
         _cloudOwner=cloudOwner;
+        admin = new Admin(_cloudOwner);
     }
 
     function initialize(address cloudOwner) public {
         require(!_initialized, "Contract instance has already been initialized");
         _cloudOwner=cloudOwner;
+        admin.addAdmin(_cloudOwner);
         _initialized=true;
     }
 

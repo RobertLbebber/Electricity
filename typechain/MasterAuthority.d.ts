@@ -19,21 +19,17 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
-interface AuthenticatorInterface extends ethers.utils.Interface {
+interface MasterAuthorityInterface extends ethers.utils.Interface {
   functions: {
     "DEFAULT_ADMIN_ROLE()": FunctionFragment;
-    "_master()": FunctionFragment;
     "addMaster(address)": FunctionFragment;
-    "createMarketPlace(address)": FunctionFragment;
     "getRoleAdmin(bytes32)": FunctionFragment;
     "grantRole(bytes32,address)": FunctionFragment;
     "hasRole(bytes32,address)": FunctionFragment;
-    "initilizer(address)": FunctionFragment;
     "isMaster(address)": FunctionFragment;
     "removeMaster(address)": FunctionFragment;
     "renounceRole(bytes32,address)": FunctionFragment;
     "revokeRole(bytes32,address)": FunctionFragment;
-    "sayHi()": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
   };
 
@@ -41,12 +37,7 @@ interface AuthenticatorInterface extends ethers.utils.Interface {
     functionFragment: "DEFAULT_ADMIN_ROLE",
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: "_master", values?: undefined): string;
   encodeFunctionData(functionFragment: "addMaster", values: [string]): string;
-  encodeFunctionData(
-    functionFragment: "createMarketPlace",
-    values: [string]
-  ): string;
   encodeFunctionData(
     functionFragment: "getRoleAdmin",
     values: [BytesLike]
@@ -59,7 +50,6 @@ interface AuthenticatorInterface extends ethers.utils.Interface {
     functionFragment: "hasRole",
     values: [BytesLike, string]
   ): string;
-  encodeFunctionData(functionFragment: "initilizer", values: [string]): string;
   encodeFunctionData(functionFragment: "isMaster", values: [string]): string;
   encodeFunctionData(
     functionFragment: "removeMaster",
@@ -73,7 +63,6 @@ interface AuthenticatorInterface extends ethers.utils.Interface {
     functionFragment: "revokeRole",
     values: [BytesLike, string]
   ): string;
-  encodeFunctionData(functionFragment: "sayHi", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "supportsInterface",
     values: [BytesLike]
@@ -83,19 +72,13 @@ interface AuthenticatorInterface extends ethers.utils.Interface {
     functionFragment: "DEFAULT_ADMIN_ROLE",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "_master", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "addMaster", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "createMarketPlace",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(
     functionFragment: "getRoleAdmin",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "initilizer", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "isMaster", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "removeMaster",
@@ -106,26 +89,23 @@ interface AuthenticatorInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "sayHi", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "supportsInterface",
     data: BytesLike
   ): Result;
 
   events: {
-    "Mint(address,address,uint256)": EventFragment;
     "RoleAdminChanged(bytes32,bytes32,bytes32)": EventFragment;
     "RoleGranted(bytes32,address,address)": EventFragment;
     "RoleRevoked(bytes32,address,address)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: "Mint"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RoleAdminChanged"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RoleGranted"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RoleRevoked"): EventFragment;
 }
 
-export class Authenticator extends BaseContract {
+export class MasterAuthority extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -166,20 +146,13 @@ export class Authenticator extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
 
-  interface: AuthenticatorInterface;
+  interface: MasterAuthorityInterface;
 
   functions: {
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<[string]>;
 
-    _master(overrides?: CallOverrides): Promise<[string]>;
-
     addMaster(
       _account: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    createMarketPlace(
-      cloudOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -196,11 +169,6 @@ export class Authenticator extends BaseContract {
       account: string,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
-
-    initilizer(
-      master: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
 
     isMaster(_account: string, overrides?: CallOverrides): Promise<[boolean]>;
 
@@ -221,8 +189,6 @@ export class Authenticator extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    sayHi(overrides?: CallOverrides): Promise<[string]>;
-
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
@@ -231,15 +197,8 @@ export class Authenticator extends BaseContract {
 
   DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
-  _master(overrides?: CallOverrides): Promise<string>;
-
   addMaster(
     _account: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  createMarketPlace(
-    cloudOwner: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -256,11 +215,6 @@ export class Authenticator extends BaseContract {
     account: string,
     overrides?: CallOverrides
   ): Promise<boolean>;
-
-  initilizer(
-    master: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
 
   isMaster(_account: string, overrides?: CallOverrides): Promise<boolean>;
 
@@ -281,8 +235,6 @@ export class Authenticator extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  sayHi(overrides?: CallOverrides): Promise<string>;
-
   supportsInterface(
     interfaceId: BytesLike,
     overrides?: CallOverrides
@@ -291,14 +243,7 @@ export class Authenticator extends BaseContract {
   callStatic: {
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
-    _master(overrides?: CallOverrides): Promise<string>;
-
     addMaster(_account: string, overrides?: CallOverrides): Promise<void>;
-
-    createMarketPlace(
-      cloudOwner: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
 
     getRoleAdmin(role: BytesLike, overrides?: CallOverrides): Promise<string>;
 
@@ -313,8 +258,6 @@ export class Authenticator extends BaseContract {
       account: string,
       overrides?: CallOverrides
     ): Promise<boolean>;
-
-    initilizer(master: string, overrides?: CallOverrides): Promise<void>;
 
     isMaster(_account: string, overrides?: CallOverrides): Promise<boolean>;
 
@@ -332,8 +275,6 @@ export class Authenticator extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    sayHi(overrides?: CallOverrides): Promise<string>;
-
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
@@ -341,15 +282,6 @@ export class Authenticator extends BaseContract {
   };
 
   filters: {
-    Mint(
-      _from?: string | null,
-      _to?: string | null,
-      _nftTokenId?: null
-    ): TypedEventFilter<
-      [string, string, BigNumber],
-      { _from: string; _to: string; _nftTokenId: BigNumber }
-    >;
-
     RoleAdminChanged(
       role?: BytesLike | null,
       previousAdminRole?: BytesLike | null,
@@ -381,15 +313,8 @@ export class Authenticator extends BaseContract {
   estimateGas: {
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
 
-    _master(overrides?: CallOverrides): Promise<BigNumber>;
-
     addMaster(
       _account: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    createMarketPlace(
-      cloudOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -408,11 +333,6 @@ export class Authenticator extends BaseContract {
       role: BytesLike,
       account: string,
       overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    initilizer(
-      master: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     isMaster(_account: string, overrides?: CallOverrides): Promise<BigNumber>;
@@ -434,8 +354,6 @@ export class Authenticator extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    sayHi(overrides?: CallOverrides): Promise<BigNumber>;
-
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
@@ -447,15 +365,8 @@ export class Authenticator extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    _master(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     addMaster(
       _account: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    createMarketPlace(
-      cloudOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -474,11 +385,6 @@ export class Authenticator extends BaseContract {
       role: BytesLike,
       account: string,
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    initilizer(
-      master: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     isMaster(
@@ -502,8 +408,6 @@ export class Authenticator extends BaseContract {
       account: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
-
-    sayHi(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     supportsInterface(
       interfaceId: BytesLike,

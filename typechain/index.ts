@@ -32,6 +32,7 @@ export type { CollectionSiteAdminAuthority } from "./CollectionSiteAdminAuthorit
 export type { CollectionSiteCreatorAuthority } from "./CollectionSiteCreatorAuthority";
 export type { CollectionSiteDestroyerAuthority } from "./CollectionSiteDestroyerAuthority";
 export type { CollectionSiteRevokerAuthority } from "./CollectionSiteRevokerAuthority";
+export type { MasterAuthority } from "./MasterAuthority";
 export type { PauserAuthority } from "./PauserAuthority";
 export type { Roles } from "./Roles";
 export type { TokenBurnerAuthority } from "./TokenBurnerAuthority";
@@ -73,6 +74,7 @@ export { CollectionSiteAdminAuthority__factory } from "./factories/CollectionSit
 export { CollectionSiteCreatorAuthority__factory } from "./factories/CollectionSiteCreatorAuthority__factory";
 export { CollectionSiteDestroyerAuthority__factory } from "./factories/CollectionSiteDestroyerAuthority__factory";
 export { CollectionSiteRevokerAuthority__factory } from "./factories/CollectionSiteRevokerAuthority__factory";
+export { MasterAuthority__factory } from "./factories/MasterAuthority__factory";
 export { PauserAuthority__factory } from "./factories/PauserAuthority__factory";
 export { Roles__factory } from "./factories/Roles__factory";
 export { TokenBurnerAuthority__factory } from "./factories/TokenBurnerAuthority__factory";

@@ -23,12 +23,12 @@ import "./TokenSenderAuthority.sol";
  * @dev Bundles Access Control and Pausable contracts in one.
  *
  */
-contract Admin is IAdmin, AccessControl {
+contract MasterAuthority is AccessControl {
     /**
     * @dev Modifier for checking whether the caller is an admin.
     */
-    modifier onlyAdmin() {
-        require(hasRole(DEFAULT_ADMIN_ROLE, msg.sender), "Admin: access denied");
+    modifier onlyMaster() {
+        require(hasRole(Roles.MASTER_ROLE, msg.sender), "MasterAuthority: access denied");
         _;
     }
 
@@ -37,6 +37,7 @@ contract Admin is IAdmin, AccessControl {
      * @dev Grants `DEFAULT_ADMIN_ROLE`, `PAUSER_ROLE` to the admin account.
      */
     constructor(address _admin) {
+        _setupRole(Roles.MASTER_ROLE , _admin);
         _setupRole(DEFAULT_ADMIN_ROLE, _admin);
         _setupRole(Roles.COLLECTION_SITE_ADMIN_ROLE , _admin);
         _setupRole(Roles.PAUSER_ROLE , _admin);
@@ -50,21 +51,21 @@ contract Admin is IAdmin, AccessControl {
     /**
      * @dev See {IAuthorities-isAdmin}.
      */
-    function isAdmin(address _account) external override view returns (bool) {
-        return hasRole(DEFAULT_ADMIN_ROLE, _account);
+    function isMaster(address _account) external view returns (bool) {
+        return hasRole(Roles.MASTER_ROLE, _account);
     }
 
     /**
      * @dev See {IAuthorities-addAdmin}.
      */
-    function addAdmin(address _account) external override {
-        grantRole(DEFAULT_ADMIN_ROLE, _account);
+    function addMaster(address _account) external  {
+        grantRole(Roles.MASTER_ROLE, _account);
     }
 
     /**
      * @dev See {IAuthorities-removeAdmin}.
      */
-    function removeAdmin(address _account) external override {
-        revokeRole(DEFAULT_ADMIN_ROLE, _account);
+    function removeMaster(address _account) external  {
+        revokeRole(Roles.MASTER_ROLE, _account);
     }
 }

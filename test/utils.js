@@ -1,5 +1,6 @@
 const hre = require('hardhat');
 const { BN, ether} = require('@openzeppelin/test-helpers');
+const { SignerWithAddress } =require('@nomiclabs/hardhat-ethers/dist/src/signer-with-address');
 
 function getDepositAmount({ min = new BN('1'), max = ether('1000') } = {}) {
   return ether(Math.random().toFixed(8))
@@ -9,9 +10,13 @@ function getDepositAmount({ min = new BN('1'), max = ether('1000') } = {}) {
 }
 
 async function impersonateAccount(account) {
+  let nowAccount= account;
+  if(account instanceof SignerWithAddress){
+    nowAccount=await account.getAddress();
+  }
   return hre.network.provider.request({
     method: 'hardhat_impersonateAccount',
-    params: [account],
+    params: [nowAccount],
   });
 }
 

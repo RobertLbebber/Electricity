@@ -137,6 +137,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.CollectionSiteRevokerAuthority__factory>;
     getContractFactory(
+      name: "MasterAuthority",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.MasterAuthority__factory>;
+    getContractFactory(
       name: "PauserAuthority",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.PauserAuthority__factory>;
