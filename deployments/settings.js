@@ -3,15 +3,11 @@ const hre = require('hardhat');
 let contracts, contractSettings;
 if (hre.hardhatArguments && hre.hardhatArguments.network === 'goerli') {
   contracts = {
-    authenticator: "0x0000000000000000000000000000000000000000",
-    authorityFactory: "0x0000000000000000000000000000000000000000" 
+    authenticator: "0x1000000000000000000000000000000000000000",
+    authorityFactory: "0x2000000000000000000000000000000000000000" 
   };
 
   contractSettings = {
-    cancelLockDuration: '86400', // 1 day
-    oraclesSyncPeriod: '86400', // 1 day
-    validatorPrice: '10000000000000000000', // 10 DAI / month
-    maintainerFee: '1000', // 10%,
     admin: '0x1867c96601bc5fE24F685d112314B8F3Fe228D5A',
     maintainer: '0x1867c96601bc5fE24F685d112314B8F3Fe228D5A',
     VRC: '0x8c5fecdC472E27Bc447696F431E425D02dd46a8c',
@@ -24,15 +20,11 @@ if (hre.hardhatArguments && hre.hardhatArguments.network === 'goerli') {
   };
 } else {
   contracts = {
-    authenticator: "0x0000000000000000000000000000000000000000",
-    authorityFactory: "0x0000000000000000000000000000000000000000"
+    authenticator: "0x1000000000000000000000000000000000000000",
+    authorityFactory: "0x2000000000000000000000000000000000000000"
   };
 
   contractSettings = {
-    cancelLockDuration: '86400', // 1 day
-    oraclesSyncPeriod: '86400', // 1 day
-    validatorPrice: '10000000000000000000', // 10 DAI / month
-    maintainerFee: '1000', // 10%,
     admin: '0x144a98cb1CdBb23610501fE6108858D9B7D24934',
     maintainer: '0xf91AA4a655B6F43243ed4C2853F3508314DaA2aB',
     VRC: '0x00000000219ab540356cbb839cbe05303d7705fa',

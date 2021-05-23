@@ -5,6 +5,8 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
+import "hardhat/console.sol";
+
 import "../presets/authorities/Admin.sol";
 import "../presets/authorities/MasterAuthority.sol";
 import "../presets/authorities/Roles.sol";
@@ -44,13 +46,14 @@ contract Authenticator is MasterAuthority {
         return "Hi";
     }
 
-    function createMarketPlace(address cloudOwner) public onlyMaster{
+    function createMarketPlace(address cloudOwner) public onlyMaster {
         CountersUpgradeable.increment(counter);
 
         uint256 newNftTokenId = CountersUpgradeable.current(counter);
         AuthorityFactory nft=new AuthorityFactory(cloudOwner);
         _cloudOwners[cloudOwner]=newNftTokenId;
         nft.mint(cloudOwner, newNftTokenId);
+        console.log(_master ,cloudOwner, newNftTokenId);
         emit Mint(_master ,cloudOwner, newNftTokenId);
     }
 }
