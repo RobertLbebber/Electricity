@@ -12,5 +12,4 @@ library Roles{
     bytes32 public constant TOKEN_OPERATOR_ROLE = keccak256("TOKEN_OPERATOR_ROLE");
     bytes32 public constant TOKEN_REVOKER_ROLE = keccak256("TOKEN_REVOKER_ROLE");
     bytes32 public constant TOKEN_SENDER_ROLE = keccak256("TOKEN_SENDER_ROLE");
-
 }

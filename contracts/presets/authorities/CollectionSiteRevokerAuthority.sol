@@ -6,6 +6,10 @@ import "./Roles.sol";
 
 abstract contract CollectionSiteRevokerAuthority is AccessControl {
 
+    constructor(address _admin) {
+        _setupRole(Roles.COLLECTION_SITE_REVOKER_ROLE , _admin);
+    }
+
     /**
      * @dev See {IAuthorities-isAdmin}.
      */

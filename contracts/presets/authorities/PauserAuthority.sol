@@ -8,6 +8,10 @@ import "./Roles.sol";
 
 abstract contract PauserAuthority is AccessControl, Pausable, IPauser {
 
+    constructor(address _admin) {
+        _setupRole(Roles.PAUSER_ROLE , _admin);
+    }
+
     /**
     * @dev Modifier for checking whether the caller is a pauser.
     */

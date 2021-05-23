@@ -6,6 +6,10 @@ import "./Roles.sol";
 
 abstract contract TokenOperatorAuthority is AccessControl {
 
+    constructor(address _admin) {
+        _setupRole(Roles.TOKEN_OPERATOR_ROLE , _admin);
+    }
+
     /**
      * @dev See {IAuthorities-isAdmin}.
      */

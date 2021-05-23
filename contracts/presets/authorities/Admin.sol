@@ -35,9 +35,6 @@ abstract contract Admin is IAdmin, AccessControl {
     constructor(address _admin) {
         _setupRole(DEFAULT_ADMIN_ROLE, _admin);
         _setupRole(Roles.COLLECTION_SITE_ADMIN_ROLE , _admin);
-        _setupRole(Roles.COLLECTION_SITE_CREATOR_ROLE , _admin);
-        _setupRole(Roles.COLLECTION_SITE_DESTROYER_ROLE , _admin);
-        _setupRole(Roles.COLLECTION_SITE_REVOKER_ROLE , _admin);
         _setupRole(Roles.PAUSER_ROLE , _admin);
         _setupRole(Roles.TOKEN_BURNER_ROLE , _admin);
         _setupRole(Roles.TOKEN_MINTER_ROLE , _admin);
