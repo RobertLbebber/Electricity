@@ -2,17 +2,17 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/access/AccessControl.sol";
-import "@openzeppelin/contracts/utils/Pausable.sol";
+import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Pausable.sol";
 import "../../interfaces/IPauser.sol";
+import "./Roles.sol";
 
-abstract contract PauserAuthority is AccessControl, Pausable {
-    bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
+abstract contract PauserAuthority is AccessControl, Pausable, IPauser {
 
     /**
     * @dev Modifier for checking whether the caller is a pauser.
     */
     modifier onlyPauser() {
-        require(hasRole(PAUSER_ROLE, msg.sender), "Authorities: access denied");
+        require(hasRole(Roles.PAUSER_ROLE, msg.sender), "Authorities: access denied");
         _;
     }
 
@@ -20,21 +20,21 @@ abstract contract PauserAuthority is AccessControl, Pausable {
      * @dev See {IAuthorities-isPauser}.
      */
     function isPauser(address _account) external override view returns (bool) {
-        return hasRole(PAUSER_ROLE, _account);
+        return hasRole(Roles.PAUSER_ROLE, _account);
     }
 
     /**
      * @dev See {IAuthorities-addPauser}.
      */
     function addPauser(address _account) external override {
-        grantRole(PAUSER_ROLE, _account);
+        grantRole(Roles.PAUSER_ROLE, _account);
     }
 
     /**
      * @dev See {IAuthorities-removePauser}.
      */
     function removePauser(address _account) external override {
-        revokeRole(PAUSER_ROLE, _account);
+        revokeRole(Roles.PAUSER_ROLE, _account);
     }
 
     /**

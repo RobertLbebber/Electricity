@@ -3,6 +3,7 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "../presets/authorities/Admin.sol"
 
 /**
  * @dev Implementation of https://eips.ethereum.org/EIPS/eip-721[ERC721] Non-Fungible Token Standard, including
@@ -15,6 +16,8 @@ contract AuthorityFactory is Context, ERC165, IERC721, IERC721Metadata {
 
     // Token name
     string private _name;
+
+    address private _cloudOwner;
 
     // Token symbol
     string private _symbol;
@@ -34,9 +37,8 @@ contract AuthorityFactory is Context, ERC165, IERC721, IERC721Metadata {
     /**
      * @dev Initializes the contract by setting a `name` and a `symbol` to the token collection.
      */
-    constructor (string memory name_, string memory symbol_) {
-        _name = name_;
-        _symbol = symbol_;
+    constructor (address cloudOwner) {
+        _cloudOwner =cloudOwner;
     }
 
     /**
@@ -77,6 +79,20 @@ contract AuthorityFactory is Context, ERC165, IERC721, IERC721Metadata {
      */
     function symbol() public view virtual override returns (string memory) {
         return _symbol;
+    }
+
+    /**
+     * @dev See {IERC721Metadata-name}.
+     */
+    function setName(string name) public onlyAdmin{
+        _name = name;
+    }
+
+    /**
+     * @dev See {IERC721Metadata-symbol}.
+     */
+    function setSymbol(string symbol) public onlyAdmin {
+        _symbol=symbol;
     }
 
     /**
