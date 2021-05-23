@@ -1,10 +1,9 @@
 {
-  "name": "@paulrberg/solidity-template",
-  "description": "Setup for writing Solidity smart contracts",
-  "version": "1.0.0",
+  "name": "electricity",
+  "description": "Cloud Computing Smart Contract Ecosystem",
+  "version": "0.0.1",
   "author": {
-    "name": "Paul Razvan Berg",
-    "url": "https://paulrberg.com"
+    "name": "Robert Bebber"
   },
   "devDependencies": {
     "@codechecks/client": "^0.1.10",
@@ -19,6 +18,7 @@
     "@nomiclabs/hardhat-waffle": "^2.0.1",
     "@openzeppelin/contracts": "^4.1.0",
     "@openzeppelin/contracts-upgradeable": "^4.1.0",
+    "@openzeppelin/test-helpers": "^0.5.11",
     "@typechain/ethers-v5": "^7.0.0",
     "@typechain/hardhat": "^2.0.1",
     "@types/chai": "^4.2.18",
@@ -67,7 +67,6 @@
   },
   "scripts": {
     "clean": "hardhat clean",
-    "commit": "git-cz",
     "compile": "hardhat compile",
     "coverage": "hardhat coverage --solcoverjs ./.solcover.js --temp artifacts --testfiles \"./test/**/*.ts\"",
     "deploy": "hardhat run scripts/deploy.ts",

@@ -113,6 +113,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IPauser__factory>;
     getContractFactory(
+      name: "Authenticator",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Authenticator__factory>;
+    getContractFactory(
       name: "Admin",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Admin__factory>;

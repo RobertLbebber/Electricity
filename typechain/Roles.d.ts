@@ -24,6 +24,7 @@ interface RolesInterface extends ethers.utils.Interface {
     "COLLECTION_SITE_CREATOR_ROLE()": FunctionFragment;
     "COLLECTION_SITE_DESTROYER_ROLE()": FunctionFragment;
     "COLLECTION_SITE_REVOKER_ROLE()": FunctionFragment;
+    "MASTER_ROLE()": FunctionFragment;
     "PAUSER_ROLE()": FunctionFragment;
     "TOKEN_BURNER_ROLE()": FunctionFragment;
     "TOKEN_MINTER_ROLE()": FunctionFragment;
@@ -46,6 +47,10 @@ interface RolesInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "COLLECTION_SITE_REVOKER_ROLE",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "MASTER_ROLE",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -87,6 +92,10 @@ interface RolesInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "COLLECTION_SITE_REVOKER_ROLE",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "MASTER_ROLE",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -171,6 +180,8 @@ export class Roles extends BaseContract {
 
     COLLECTION_SITE_REVOKER_ROLE(overrides?: CallOverrides): Promise<[string]>;
 
+    MASTER_ROLE(overrides?: CallOverrides): Promise<[string]>;
+
     PAUSER_ROLE(overrides?: CallOverrides): Promise<[string]>;
 
     TOKEN_BURNER_ROLE(overrides?: CallOverrides): Promise<[string]>;
@@ -192,6 +203,8 @@ export class Roles extends BaseContract {
 
   COLLECTION_SITE_REVOKER_ROLE(overrides?: CallOverrides): Promise<string>;
 
+  MASTER_ROLE(overrides?: CallOverrides): Promise<string>;
+
   PAUSER_ROLE(overrides?: CallOverrides): Promise<string>;
 
   TOKEN_BURNER_ROLE(overrides?: CallOverrides): Promise<string>;
@@ -212,6 +225,8 @@ export class Roles extends BaseContract {
     COLLECTION_SITE_DESTROYER_ROLE(overrides?: CallOverrides): Promise<string>;
 
     COLLECTION_SITE_REVOKER_ROLE(overrides?: CallOverrides): Promise<string>;
+
+    MASTER_ROLE(overrides?: CallOverrides): Promise<string>;
 
     PAUSER_ROLE(overrides?: CallOverrides): Promise<string>;
 
@@ -238,6 +253,8 @@ export class Roles extends BaseContract {
     ): Promise<BigNumber>;
 
     COLLECTION_SITE_REVOKER_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
+
+    MASTER_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
 
     PAUSER_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -268,6 +285,8 @@ export class Roles extends BaseContract {
     COLLECTION_SITE_REVOKER_ROLE(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    MASTER_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     PAUSER_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 

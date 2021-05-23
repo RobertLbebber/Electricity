@@ -18,6 +18,8 @@ contract AuthorityFactory is ERC165, IERC721, Admin {
     // Token name
     string private _name;
 
+    bool private _initialized;
+
     address private _cloudOwner;
 
     // Token symbol
@@ -42,9 +44,10 @@ contract AuthorityFactory is ERC165, IERC721, Admin {
         _cloudOwner=cloudOwner;
     }
 
-    function initialize(string memory nameVal, string memory symbolVal) public {
-       _name =nameVal;
-       _symbol =symbolVal;
+    function initialize(address cloudOwner) public {
+        require(!_initialized, "Contract instance has already been initialized");
+        _cloudOwner=cloudOwner;
+        _initialized=true;
     }
 
     /**
@@ -220,6 +223,10 @@ contract AuthorityFactory is ERC165, IERC721, Admin {
         require(_exists(tokenId), "AuthorityFactory: operator query for nonexistent token");
         address owner = AuthorityFactory.ownerOf(tokenId);
         return (spender == owner || getApproved(tokenId) == spender || isApprovedForAll(owner, spender));
+    }
+
+    function mint(address to, uint256 tokenId) external virtual {
+        _safeMint(to, tokenId);
     }
 
     /**

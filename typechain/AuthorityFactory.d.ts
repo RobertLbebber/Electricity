@@ -29,9 +29,10 @@ interface AuthorityFactoryInterface extends ethers.utils.Interface {
     "getRoleAdmin(bytes32)": FunctionFragment;
     "grantRole(bytes32,address)": FunctionFragment;
     "hasRole(bytes32,address)": FunctionFragment;
-    "initialize(string,string)": FunctionFragment;
+    "initialize(address)": FunctionFragment;
     "isAdmin(address)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
+    "mint(address,uint256)": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
     "removeAdmin(address)": FunctionFragment;
     "renounceRole(bytes32,address)": FunctionFragment;
@@ -71,14 +72,15 @@ interface AuthorityFactoryInterface extends ethers.utils.Interface {
     functionFragment: "hasRole",
     values: [BytesLike, string]
   ): string;
-  encodeFunctionData(
-    functionFragment: "initialize",
-    values: [string, string]
-  ): string;
+  encodeFunctionData(functionFragment: "initialize", values: [string]): string;
   encodeFunctionData(functionFragment: "isAdmin", values: [string]): string;
   encodeFunctionData(
     functionFragment: "isApprovedForAll",
     values: [string, string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "mint",
+    values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "ownerOf",
@@ -139,6 +141,7 @@ interface AuthorityFactoryInterface extends ethers.utils.Interface {
     functionFragment: "isApprovedForAll",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "removeAdmin",
@@ -265,8 +268,7 @@ export class AuthorityFactory extends BaseContract {
     ): Promise<[boolean]>;
 
     initialize(
-      nameVal: string,
-      symbolVal: string,
+      cloudOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -277,6 +279,12 @@ export class AuthorityFactory extends BaseContract {
       operator: string,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
+
+    mint(
+      to: string,
+      tokenId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
     ownerOf(
       tokenId: BigNumberish,
@@ -384,8 +392,7 @@ export class AuthorityFactory extends BaseContract {
   ): Promise<boolean>;
 
   initialize(
-    nameVal: string,
-    symbolVal: string,
+    cloudOwner: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -396,6 +403,12 @@ export class AuthorityFactory extends BaseContract {
     operator: string,
     overrides?: CallOverrides
   ): Promise<boolean>;
+
+  mint(
+    to: string,
+    tokenId: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
@@ -493,11 +506,7 @@ export class AuthorityFactory extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    initialize(
-      nameVal: string,
-      symbolVal: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
+    initialize(cloudOwner: string, overrides?: CallOverrides): Promise<void>;
 
     isAdmin(_account: string, overrides?: CallOverrides): Promise<boolean>;
 
@@ -506,6 +515,12 @@ export class AuthorityFactory extends BaseContract {
       operator: string,
       overrides?: CallOverrides
     ): Promise<boolean>;
+
+    mint(
+      to: string,
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
@@ -658,8 +673,7 @@ export class AuthorityFactory extends BaseContract {
     ): Promise<BigNumber>;
 
     initialize(
-      nameVal: string,
-      symbolVal: string,
+      cloudOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -669,6 +683,12 @@ export class AuthorityFactory extends BaseContract {
       owner: string,
       operator: string,
       overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    mint(
+      to: string,
+      tokenId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     ownerOf(
@@ -786,8 +806,7 @@ export class AuthorityFactory extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     initialize(
-      nameVal: string,
-      symbolVal: string,
+      cloudOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -800,6 +819,12 @@ export class AuthorityFactory extends BaseContract {
       owner: string,
       operator: string,
       overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    mint(
+      to: string,
+      tokenId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     ownerOf(
