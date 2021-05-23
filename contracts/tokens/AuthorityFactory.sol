@@ -3,14 +3,15 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "../presets/authorities/Admin.sol"
+import "@openzeppelin/contracts/access/AccessControl.sol";
+import "../presets/authorities/Admin.sol";
 
 /**
  * @dev Implementation of https://eips.ethereum.org/EIPS/eip-721[ERC721] Non-Fungible Token Standard, including
  * the Metadata extension, but not including the Enumerable extension, which is available separately as
  * {ERC721Enumerable}.
  */
-contract AuthorityFactory is Context, ERC165, IERC721, IERC721Metadata {
+contract AuthorityFactory is ERC165, IERC721, Admin {
     using Address for address;
     using Strings for uint256;
 
@@ -37,14 +38,19 @@ contract AuthorityFactory is Context, ERC165, IERC721, IERC721Metadata {
     /**
      * @dev Initializes the contract by setting a `name` and a `symbol` to the token collection.
      */
-    constructor (address cloudOwner) {
-        _cloudOwner =cloudOwner;
+    constructor (address cloudOwner) Admin(_cloudOwner) {
+        _cloudOwner=cloudOwner;
+    }
+
+    function initialize(string memory nameVal, string memory symbolVal) public {
+       _name =nameVal;
+       _symbol =symbolVal;
     }
 
     /**
      * @dev See {IERC165-supportsInterface}.
      */
-    function supportsInterface(bytes4 interfaceId) public view virtual override(ERC165, IERC165) returns (bool) {
+    function supportsInterface(bytes4 interfaceId) public view virtual override(AccessControl, ERC165, IERC165) returns (bool) {
         return interfaceId == type(IERC721).interfaceId
             || interfaceId == type(IERC721Metadata).interfaceId
             || super.supportsInterface(interfaceId);
@@ -70,35 +76,21 @@ contract AuthorityFactory is Context, ERC165, IERC721, IERC721Metadata {
     /**
      * @dev See {IERC721Metadata-name}.
      */
-    function name() public view virtual override returns (string memory) {
-        return _name;
+    function setName(string memory nameVal) public onlyAdmin{
+        _name = nameVal;
     }
 
     /**
      * @dev See {IERC721Metadata-symbol}.
      */
-    function symbol() public view virtual override returns (string memory) {
-        return _symbol;
-    }
-
-    /**
-     * @dev See {IERC721Metadata-name}.
-     */
-    function setName(string name) public onlyAdmin{
-        _name = name;
-    }
-
-    /**
-     * @dev See {IERC721Metadata-symbol}.
-     */
-    function setSymbol(string symbol) public onlyAdmin {
-        _symbol=symbol;
+    function setSymbol(string memory symbolVal) public onlyAdmin {
+        _symbol = symbolVal;
     }
 
     /**
      * @dev See {IERC721Metadata-tokenURI}.
      */
-    function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
+    function tokenURI(uint256 tokenId) public view virtual returns (string memory) {
         require(_exists(tokenId), "AuthorityFactoryMetadata: URI query for nonexistent token");
 
         string memory baseURI = _baseURI();
@@ -197,6 +189,7 @@ contract AuthorityFactory is Context, ERC165, IERC721, IERC721Metadata {
      * - `tokenId` token must exist and be owned by `from`.
      * - If `to` refers to a smart contract, it must implement {IERC721Receiver-onERC721Received}, which is called upon a safe transfer.
      *
+     * Emits a {Transfer} event.
      * Emits a {Transfer} event.
      */
     function _safeTransfer(address from, address to, uint256 tokenId, bytes memory _data) internal virtual {
@@ -383,4 +376,6 @@ contract AuthorityFactory is Context, ERC165, IERC721, IERC721Metadata {
      * To learn more about hooks, head to xref:ROOT:extending-contracts.adoc#using-hooks[Using Hooks].
      */
     function _beforeTokenTransfer(address from, address to, uint256 tokenId) internal virtual { }
+    
+
 }

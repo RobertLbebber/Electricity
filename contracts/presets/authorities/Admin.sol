@@ -3,6 +3,8 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/access/AccessControl.sol";
+import "@openzeppelin/contracts/proxy/ERC1967/ERC1967Upgrade.sol";
+
 import "../../interfaces/IAdmin.sol";
 import "./Roles.sol";
 import "./CollectionSiteCreatorAuthority.sol";
@@ -29,6 +31,8 @@ abstract contract Admin is IAdmin, AccessControl {
         require(hasRole(DEFAULT_ADMIN_ROLE, msg.sender), "Admin: access denied");
         _;
     }
+
+    
     /**
      * @dev Grants `DEFAULT_ADMIN_ROLE`, `PAUSER_ROLE` to the admin account.
      */

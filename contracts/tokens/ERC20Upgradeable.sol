@@ -4,8 +4,9 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/math/SafeMathUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/proxy/Initializable.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/utils/math/SafeMathUpgradeable.sol";
+import "@openzeppelin/contracts/proxy/ERC1967/ERC1967Upgrade.sol";
 
 
 /**
@@ -32,7 +33,7 @@ import "@openzeppelin/contracts-upgradeable/proxy/Initializable.sol";
  * functions have been added to mitigate the well-known issues around setting
  * allowances. See {IERC20-approve}.
  */
-abstract contract ERC20Upgradeable is Initializable, IERC20Upgradeable {
+abstract contract ERC20Upgradeable is ERC1967Upgrade, IERC20Upgradeable {
     using SafeMathUpgradeable for uint256;
 
     mapping (address => mapping (address => uint256)) private _allowances;
@@ -40,6 +41,7 @@ abstract contract ERC20Upgradeable is Initializable, IERC20Upgradeable {
     string private _name;
     string private _symbol;
     uint8 private _decimals;
+    bool private _initialized;
 
     /**
      * @dev Sets the values for {name} and {symbol}, initializes {decimals} with
@@ -51,21 +53,25 @@ abstract contract ERC20Upgradeable is Initializable, IERC20Upgradeable {
      * construction.
      */
     // solhint-disable-next-line func-name-mixedcase
-    function __ERC20_init(string memory name_, string memory symbol_) internal initializer {
+    function __ERC20_init(string memory name_, string memory symbol_) internal {
+        require(!_initialized, "Contract instance has already been initialized");
         __ERC20_init_unchained(name_, symbol_);
+        _initialized=true;
     }
 
     // solhint-disable-next-line func-name-mixedcase
-    function __ERC20_init_unchained(string memory name_, string memory symbol_) internal initializer {
+    function __ERC20_init_unchained(string memory name_, string memory symbol_) internal {
+        require(!_initialized, "Contract instance has already been initialized");
         _name = name_;
         _symbol = symbol_;
         _decimals = 18;
+        _initialized=true;
     }
 
     /**
      * @dev Returns the name of the token.
      */
-    function name() public view virtual returns (string memory) {
+    function name() public view  virtual returns (string memory) {
         return _name;
     }
 
@@ -73,8 +79,8 @@ abstract contract ERC20Upgradeable is Initializable, IERC20Upgradeable {
      * @dev Returns the symbol of the token, usually a shorter version of the
      * name.
      */
-    function symbol() public view virtual returns (string memory) {
-        return _symbol;
+    function symbol() public view  virtual returns (string memory) {
+        return _symbol;   
     }
 
     /**
@@ -143,7 +149,7 @@ abstract contract ERC20Upgradeable is Initializable, IERC20Upgradeable {
         _transfer(sender, recipient, amount);
 
         uint256 currentAllowance = _allowances[sender][msg.sender];
-        if (sender != msg.sender && currentAllowance != uint256(-1)) {
+        if (sender != msg.sender && currentAllowance != type(uint256).max) {
             _approve(sender, msg.sender, currentAllowance.sub(amount));
         }
         return true;
